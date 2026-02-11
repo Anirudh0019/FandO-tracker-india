@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/FandO-tracker-india/static/css/main.e6f66437.css",
-    "main.js": "/FandO-tracker-india/static/js/main.24d2f8f3.js",
-    "index.html": "/FandO-tracker-india/index.html",
-    "main.e6f66437.css.map": "/FandO-tracker-india/static/css/main.e6f66437.css.map",
-    "main.24d2f8f3.js.map": "/FandO-tracker-india/static/js/main.24d2f8f3.js.map"
+    "main.css": "/static/css/main.e6f66437.css",
+    "main.js": "/static/js/main.319a4435.js",
+    "index.html": "/index.html",
+    "main.e6f66437.css.map": "/static/css/main.e6f66437.css.map",
+    "main.319a4435.js.map": "/static/js/main.319a4435.js.map"
   },
   "entrypoints": [
     "static/css/main.e6f66437.css",
-    "static/js/main.24d2f8f3.js"
+    "static/js/main.319a4435.js"
   ]
 }
