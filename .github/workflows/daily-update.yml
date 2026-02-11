@@ -1,0 +1,73 @@
+name: Daily F&O Data Update
+
+on:
+  schedule:
+    # 6:30 PM IST = 1:00 PM UTC (after NSE market close + buffer)
+    - cron: '0 13 * * 1-5'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install pandas requests
+
+      - name: Fetch today's data
+        run: python main.py --date $(date -u +%Y-%m-%d)
+
+      - name: Rebuild combined summary (last 30 trading days)
+        run: |
+          python -c "
+          import pandas as pd
+          from pathlib import Path
+          summaries = sorted(Path('nse_fo_data/summaries').glob('summary_*.csv'))
+          # Keep last 30 files
+          recent = summaries[-30:]
+          dfs = [pd.read_csv(f) for f in recent]
+          combined = pd.concat(dfs, ignore_index=True)
+          combined.to_csv('nse_fo_data/combined_summary.csv', index=False)
+          print(f'Combined {len(recent)} days, {len(combined)} rows, {combined[\"Symbol\"].nunique()} symbols')
+          "
+
+      - name: Copy CSV to dashboard
+        run: cp nse_fo_data/combined_summary.csv dashboard/public/combined_summary.csv
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add nse_fo_data/summaries/ nse_fo_data/combined_summary.csv dashboard/public/combined_summary.csv
+          git diff --staged --quiet || git commit -m "data: update F&O data for $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Install and build dashboard
+        working-directory: dashboard
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dashboard/build

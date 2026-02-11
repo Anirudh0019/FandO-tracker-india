@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #111111;
+  color: #e8e8e8;
+  font-size: 15px;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #1a1a1a; }
+::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #777; }
+
+/* PCR row tinting */
+tr.pcr-bullish { background-color: rgba(16, 185, 129, 0.08) !important; }
+tr.pcr-neutral { background-color: rgba(234, 179, 8, 0.06) !important; }
+tr.pcr-mod-bearish { background-color: rgba(239, 68, 68, 0.06) !important; }
+tr.pcr-bearish { background-color: rgba(239, 68, 68, 0.10) !important; }
+
+tr.pcr-bullish:hover, tr.pcr-neutral:hover, tr.pcr-mod-bearish:hover, tr.pcr-bearish:hover {
+  filter: brightness(1.3);
+}
+
+/* Zebra rows */
+tr.row-even { background-color: #141414; }
+tr.row-odd { background-color: #1a1a1a; }
+
+/* Tabular nums for aligned numbers */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Search icon sizing fix */
+.search-icon {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  flex-shrink: 0;
+}
+
+/* Table base */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.data-table th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.data-table td, .data-table th {
+  padding: 10px 14px;
+  white-space: nowrap;
+}
