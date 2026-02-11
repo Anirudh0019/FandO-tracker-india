@@ -2,7 +2,7 @@
   "name": "dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://anirudh0019.github.io/FandO-tracker-india",
+  "homepage": "https://fando.ragebait.in",
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
     "papaparse": "^5.5.3",
